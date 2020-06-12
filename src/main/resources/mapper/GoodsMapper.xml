@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuge.demo.springboot.api.goods.mapper.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.yuge.demo.springboot.api.goods.entity.Goods">
+    <!--@mbg.generated-->
+    <!--@Table goods-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, `type`, address
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yuge.demo.springboot.api.goods.entity.Goods" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into goods (`name`, `type`, address
+      )
+    values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yuge.demo.springboot.api.goods.entity.Goods" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuge.demo.springboot.api.goods.entity.Goods">
+    <!--@mbg.generated-->
+    update goods
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuge.demo.springboot.api.goods.entity.Goods">
+    <!--@mbg.generated-->
+    update goods
+    set `name` = #{name,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="findByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+    </select>
+</mapper>

@@ -20,14 +20,16 @@ public class TestController {
      * 测试请求阻塞
      * @return
      */
-    @PostMapping("xxx")
-    public String xxx() {
+    @RequestMapping("xxx")
+    public String xxx(String p) {
+        System.out.println("？？？？？");
         try {
-            Thread.sleep(60000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "success";
+        System.out.println("completed!");
+        return "success xxx";
     }
 
 }
