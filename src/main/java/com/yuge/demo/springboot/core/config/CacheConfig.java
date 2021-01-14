@@ -17,7 +17,6 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.lang.reflect.Method;
-import java.time.Duration;
 
 /**
  * <p>
@@ -36,6 +35,7 @@ public class CacheConfig extends CachingConfigurerSupport {
      * @Cacheable, @CacheEvict等注解未指定Key, 使用该策略；
      * @return
      */
+    @Override
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {
