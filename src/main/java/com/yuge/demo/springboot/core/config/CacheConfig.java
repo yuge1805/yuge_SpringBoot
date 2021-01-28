@@ -18,6 +18,9 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.lang.reflect.Method;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -54,33 +57,6 @@ public class CacheConfig extends CachingConfigurerSupport {
                 return sb.substring(0, sb.length() - 1);
             }
         };
-    }
-
-    /**
-     * 缓存管理器
-     */
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
-        // JSON 序列化器
-//        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-//        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
-
-        // 缓存配置
-        RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig()
-                // Key序列化为字符串
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                // Value序列化为JSON
-//                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()))
-//                .entryTtl(Duration.ofSeconds(60))
-                .disableCachingNullValues();
-
-        return RedisCacheManager.builder(factory)
-                .cacheDefaults(cacheConfig)
-                .build();
     }
 
 }

@@ -1,7 +1,7 @@
-package com.yuge.demo.springboot.api.goods.controller;
+package com.yuge.demo.springboot.goods.server.controller;
 
-import com.yuge.demo.springboot.api.goods.entity.Goods;
-import com.yuge.demo.springboot.api.goods.service.GoodsService;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
+import com.yuge.demo.springboot.goods.server.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@MapperScan(basePackages = {"com.yuge.demo.springboot.api.*.mapper"})
+@MapperScan(basePackages = {"com.yuge.demo.springboot.*.*.mapper"})
 @ComponentScan(basePackages = {"com.yuge"})
 public class Application extends SpringBootServletInitializer {
 

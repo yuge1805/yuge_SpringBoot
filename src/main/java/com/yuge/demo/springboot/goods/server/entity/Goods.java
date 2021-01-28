@@ -1,4 +1,4 @@
-package com.yuge.demo.springboot.api.goods.entity;
+package com.yuge.demo.springboot.goods.server.entity;
 
 import lombok.Getter;
 import lombok.Setter;

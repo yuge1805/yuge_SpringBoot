@@ -1,14 +1,12 @@
 package com.yuge.demo.springboot.core.util;
 
-import com.yuge.demo.springboot.api.goods.entity.Goods;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,6 +21,10 @@ public class CacheUtilsTest {
 
     @Test
     public void getExpire() {
+        long expire = cacheUtils.getExpire("xxx");
+        System.out.println(expire);
+        long expire2 = cacheUtils.getExpire("1");
+        System.out.println(expire2);
     }
 
     @Test

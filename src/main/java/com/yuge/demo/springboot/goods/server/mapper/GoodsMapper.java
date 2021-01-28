@@ -1,12 +1,10 @@
-package com.yuge.demo.springboot.api.goods.service;
+package com.yuge.demo.springboot.goods.server.mapper;
 
-import com.yuge.demo.springboot.api.goods.entity.Goods;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
 
 import java.util.List;
 
-public interface GoodsService{
-
-
+public interface GoodsMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(Goods record);
@@ -21,4 +19,5 @@ public interface GoodsService{
 
     List<Goods> findByAll();
 
+    List<Goods> selectByName(String name);
 }

@@ -1,5 +1,11 @@
-package com.yuge.demo.springboot.api.goods.service.impl;
+package com.yuge.demo.springboot.goods.server.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.yuge.demo.springboot.goods.common.param.GoodsQueryParam;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
+import com.yuge.demo.springboot.goods.server.mapper.GoodsMapper;
+import com.yuge.demo.springboot.goods.server.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -7,10 +13,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import javax.annotation.Resource;
-import com.yuge.demo.springboot.api.goods.mapper.GoodsMapper;
-import com.yuge.demo.springboot.api.goods.entity.Goods;
-import com.yuge.demo.springboot.api.goods.service.GoodsService;
 
 import java.util.List;
 
@@ -19,7 +24,7 @@ import java.util.List;
  */
 @CacheConfig(cacheNames = "goods")
 @Service
-public class GoodsServiceImpl implements GoodsService{
+public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
@@ -45,6 +50,8 @@ public class GoodsServiceImpl implements GoodsService{
 
     @Cacheable(key = "#id")
 //    @Cacheable("goods")
+//    // @Cacheable无法使用SPEL表达式中的result
+//    @Cacheable(key = "#result.name", unless = "#result == null")
     @Override
     public Goods selectByPrimaryKey(Long id) {
         return goodsMapper.selectByPrimaryKey(id);
@@ -69,5 +76,30 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     public List<Goods> findByAll() {
         return goodsMapper.findByAll();
+    }
+
+    @Cacheable(cacheNames = "goodsPage", key = "#param.pageNo + ',' + #param.pageSize")
+    @Override
+    public List<Goods> selectByPage(GoodsQueryParam param) {
+        PageHelper.startPage(param.getPageNo(), param.getPageSize());
+        List<Goods> result = goodsMapper.findByAll();
+        return result;
+    }
+
+    /**
+     * 根据名字查询
+     *
+     * , unless = "#result == null"
+     * @param name
+     * @return
+     */
+    @Cacheable(cacheNames = "goodsByName#600", key = "#name")
+    @Override
+    public Goods selectByName(String name) {
+        List<Goods> list = goodsMapper.selectByName(name);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        return list.get(0);
     }
 }

@@ -1,6 +1,6 @@
 package com.yuge.demo.springboot.core.util;
 
-import com.yuge.demo.springboot.api.goods.entity.Goods;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -82,6 +84,11 @@ public class RedisTemplateTest {
         System.out.println(object.getClass());
     }
 
+    @Test
+    public void opsForValue_multiGet() {
+        List<Object> list = redisTemplate.opsForValue().multiGet(Arrays.asList("goods::1", "goods::2"));
+        System.out.println(list);
+    }
 
     public void opsForValue2() {
     }

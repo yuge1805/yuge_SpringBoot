@@ -1,6 +1,6 @@
 package com.yuge.demo.springboot.core.util;
 
-import com.yuge.demo.springboot.api.goods.entity.Goods;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;

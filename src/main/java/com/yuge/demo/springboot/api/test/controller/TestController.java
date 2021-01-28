@@ -1,10 +1,9 @@
 package com.yuge.demo.springboot.api.test.controller;
 
-import com.yuge.demo.springboot.api.goods.entity.Goods;
+import com.yuge.demo.springboot.goods.server.entity.Goods;
 import org.springframework.cglib.proxy.Enhancer;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
