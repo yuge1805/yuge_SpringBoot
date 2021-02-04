@@ -89,7 +89,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 根据名字查询
      *
-     * , unless = "#result == null"
+     * unless = "#result == null"
      * @param name
      * @return
      */

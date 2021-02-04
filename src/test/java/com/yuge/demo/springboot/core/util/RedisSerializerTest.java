@@ -1,8 +1,10 @@
 package com.yuge.demo.springboot.core.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuge.demo.springboot.goods.server.entity.Goods;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -17,9 +19,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 两个指标：序列化时间 以及 反序列化时间， 序列化长度
  *
  * 推荐使用 Jackson2JsonRedisSerializer；
- * 序列化时间 以及 反序列化时间: Jackson2JsonRedisSerializer序列化、反序列化时间远小于JdkSerializationRedisSerializer；
- * 序列化长度： 序列化整个List时，JdkSerializationRedisSerializer序列化长度相对较小；
- *              遍历序列List时，JdkSerializationRedisSerializer的累加序列长度相对较大；（每个序列化结果都包含整个类的定义、引用类的定义）
+ * 序列化时间 以及 反序列化时间:
+ *      Jackson2JsonRedisSerializer序列化时间、反序列化时间远小于JdkSerializationRedisSerializer；
+ *      Jackson2JsonRedisSerializer序列化时间、反序列化时间略小于GenericJackson2JsonRedisSerializer；
+ * 序列化长度：
+ *      序列化整个List时，JdkSerializationRedisSerializer序列化长度相对较小；
+ *      遍历序列List时，JdkSerializationRedisSerializer的累加序列长度相对较大；（每个序列化结果都包含整个类的定义、引用类的定义）
  * @author: yuge
  * @date: 2021-01-15
  **/
@@ -31,9 +36,17 @@ public class RedisSerializerTest {
     public static final JdkSerializationRedisSerializer jdkSerializationRedisSerializer = new JdkSerializationRedisSerializer();
 
     /**
+     * Jackson2JsonRedisSerializer
      * Jackson序列化为json；
      */
     public static final Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+
+    /**
+     * GenericJackson2JsonRedisSerializer
+     * Jackson序列化为json；
+     * GenericJackson2JsonRedisSerializer与Jackson2JsonRedisSerializer类似，GenericJackson2JsonRedisSerializer性能不如Jackson2JsonRedisSerializer；
+     */
+    public static final GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
 
     @Test
     public void serializerTest() {
@@ -56,9 +69,11 @@ public class RedisSerializerTest {
         // 遍历每一项，进行序列化；序列化次数：dataList#size()
         redisSerializerEachTest(jdkSerializationRedisSerializer, dataList);
         redisSerializerEachTest(jackson2JsonRedisSerializer, dataList);
+        redisSerializerEachTest(genericJackson2JsonRedisSerializer, dataList);
         // 将List进行序列化；序列化次数：1次
         redisSerializerAllTest(jdkSerializationRedisSerializer, dataList);
         redisSerializerAllTest(jackson2JsonRedisSerializer, dataList);
+        redisSerializerAllTest(genericJackson2JsonRedisSerializer, dataList);
     }
 
     /**

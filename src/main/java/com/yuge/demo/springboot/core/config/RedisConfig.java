@@ -38,11 +38,14 @@ public class RedisConfig {
         // 将Key序列化为字符串
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
-        // 将Value序列化为json
+//        // jdk默认序列化
 //        template.setValueSerializer(new JdkSerializationRedisSerializer());
 //        template.setHashValueSerializer(new JdkSerializationRedisSerializer());
+//        // 将Value序列化为json
         template.setValueSerializer(redisSerializer());
         template.setHashValueSerializer(redisSerializer());
+//        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+//        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
         return template;
     }
 

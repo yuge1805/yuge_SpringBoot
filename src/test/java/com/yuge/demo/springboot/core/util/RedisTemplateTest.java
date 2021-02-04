@@ -6,8 +6,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -75,19 +77,42 @@ public class RedisTemplateTest {
         System.out.println(expire);
 
         // Object
+        System.out.println("Object==========================");
         Goods goods = new Goods();
         goods.setId(3L);
         goods.setAddress("XXXXX");
         redisTemplate.opsForValue().set("good::3", goods);
-        Object object = redisTemplate.opsForValue().get("good::3");
+        Goods object = (Goods) redisTemplate.opsForValue().get("good::3");
         System.out.println(object);
         System.out.println(object.getClass());
+
+        // List
+        System.out.println("List==========================");
+        List<Goods> list = Arrays.asList(goods);
+        redisTemplate.opsForValue().set("goodList", list);
+        List<Goods> o = (List<Goods>) redisTemplate.opsForValue().get("goodList");
+        System.out.println(o);
+        System.out.println(o.getClass().getSimpleName());
     }
 
     @Test
     public void opsForValue_multiGet() {
         List<Object> list = redisTemplate.opsForValue().multiGet(Arrays.asList("goods::1", "goods::2"));
         System.out.println(list);
+    }
+
+    @Test
+    public void execute() {
+        // Lua脚本返回类型需要与ResultType一致，否则会报异常
+        RedisScript<Long> redisScript = RedisScript.of("if redis.call('get', KEYS[1]) == ARGV[1] then " +
+                "return redis.call('del', KEYS[1]) " +
+                "else " +
+                "return 0 " +
+                "end", Long.class);
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        Long result = redisTemplate.execute(redisScript, list, 1);
+        System.out.println(result);
     }
 
     public void opsForValue2() {

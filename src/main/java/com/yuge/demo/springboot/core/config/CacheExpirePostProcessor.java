@@ -16,13 +16,13 @@ public class CacheExpirePostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("before: " + beanName);
+//        System.out.println("before: " + beanName);
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("after: " + beanName);
+//        System.out.println("after: " + beanName);
         return bean;
     }
 }
