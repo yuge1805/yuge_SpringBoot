@@ -1,4 +1,4 @@
-package com.yuge.demo.springboot.api.test.controller;
+package com.yuge.demo.springboot.template.test.controller;
 
 import com.yuge.demo.springboot.goods.server.entity.Goods;
 import org.springframework.cglib.proxy.Enhancer;
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  * @since 2019-10-16
  */
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/template/test")
 public class TestController {
 
     /**
